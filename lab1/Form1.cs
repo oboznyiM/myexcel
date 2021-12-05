@@ -45,14 +45,7 @@ namespace lab1
 
         private void зберегтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(a.GetType());
-            System.Xml.Serialization.XmlSerializer writer =
-            new System.Xml.Serialization.XmlSerializer(a.GetType());
 
-           //var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//SerializationOverview.xml";
-            System.IO.FileStream file = System.IO.File.Create("./saved.xml");
-
-            writer.Serialize(file, a);
         }
 
         private void main_CellClick(object sender, DataGridViewCellEventArgs e)
