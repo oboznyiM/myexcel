@@ -13,7 +13,7 @@ namespace lab1
         public DataGridView main;
         public Data(DataGridView _main)
         {
-            a = new Table();
+            a = new Table(5, 5);
             main = _main;
             add_data();
         }
@@ -81,6 +81,25 @@ namespace lab1
         {
             a.addRow();
             add_data();
+        }
+
+        public bool removeColumn()
+        {
+            if (a.removeColumn())
+            {
+                add_data();
+                return true;
+            }
+            return false;
+        }
+        public bool removeRow()
+        {
+            if (a.removeRow())
+            {
+                add_data();
+                return true;
+            }
+            return false;
         }
     }
 }

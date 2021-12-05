@@ -11,7 +11,7 @@ namespace lab1
         
         public Form1()
         {
-            a = new Table();
+            a = new Table(5, 5);
             //frame = new Data(main);
             InitializeComponent();
         }
@@ -46,6 +46,22 @@ namespace lab1
         private void зберегтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (!frame.removeColumn())
+                MessageBox.Show("Не можна видалити стовпчик, бо на нього посилається якась клітинка");
+            else
+                expr.Text = a.content[0, 0].expression;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (!frame.removeRow())
+                MessageBox.Show("Не можна видалити рядок, бо на нього посилається якась клітинка");
+            else
+                expr.Text = a.content[0, 0].expression;
         }
 
         private void main_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -15,10 +15,10 @@ namespace lab1
         public Dictionary<String, int> values = new Dictionary<string, int>();
         public int[,] used;
 
-        public Table()
+        public Table(int h, int w)
         {
-            height = 5;
-            width = 5;
+            height = h;
+            width = w;
             content = new Cell[height, width];
             used = new int[height, width];
             for (int i = 0; i < height; i++)
@@ -39,11 +39,59 @@ namespace lab1
             for (int i = 0; i < height; i++)
             {
                 new_content[i, width] = new Cell();
-                values.Add(Cell.intToLetter(width) + i.ToString(), new_content[i, width].value.Equals(String.Empty) ? 0 : Int32.Parse(new_content[i, width].value));
+                values.Add(Cell.intToLetter(width) + i.ToString(), new_content[i, width].value.Equals(String.Empty) ? 0 : Int32.Parse(new_content[i, width].value));            
             }
             used = new int[height, width + 1];
             content = new_content;
             width++;
+        }
+
+        public bool removeColumn()
+        {
+            if (width == 1)
+                return false;
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < width - 1; j++)
+                    foreach (var x in content[i, j].val)
+                        if (x.Item2 == width - 1)
+                            return false;
+
+            Cell[,] new_content = new Cell[height, width - 1];
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < width - 1; j++)
+                {
+                    new_content[i, j] = content[i, j];
+                }
+            for (int i = 0; i < height; i++)
+                values.Remove(Cell.intToLetter(width - 1) + i.ToString());
+            used = new int[height, width - 1];
+            content = new_content;
+            width--;
+            return true;
+        }
+
+        public bool removeRow()
+        {
+            if (height == 1)
+                return false;
+            for (int i = 0; i < height - 1; i++)
+                for (int j = 0; j < width; j++)
+                    foreach (var x in content[i, j].val)
+                        if (x.Item1 == height - 1)
+                            return false;
+
+            Cell[,] new_content = new Cell[height - 1, width];
+            for (int i = 0; i < height - 1; i++)
+                for (int j = 0; j < width; j++)
+                {
+                    new_content[i, j] = content[i, j];
+                }
+            for (int j = 0; j < width; j++)
+                values.Remove(Cell.intToLetter(j) + (height - 1).ToString());
+            used = new int[height - 1, width];
+            content = new_content;
+            height--;
+            return true;
         }
 
         public void addRow()
@@ -114,14 +162,6 @@ namespace lab1
                     {
                         calc(i, j);
                     }
-            /* {  
-                 string txt = content[i, j].expression;
-                 if (txt.Equals(String.Empty))
-                     content[i, j].value = String.Empty;
-                 else
-                     content[i, j].value = Parser.eval(txt, values).ToString();
-                 values[Cell.intToLetter(j) + i.ToString()] = content[i, j].value.Equals(String.Empty) ? 0 : Int32.Parse(content[i, j].value);
-             }*/
             return true;
         }
         public int applyExpression(string txt, int r, int c)
